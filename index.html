@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لاعبني - حجز الملاعب بسهولة</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <style>
+        :root {
+            --primary: #BD1DBF;
+            --primary-light: #d84eda;
+            --primary-dark: #8e1690;
+            --secondary: #FFC107;
+            --light: #f8f5f9;
+            --dark: #2a0a2b;
+            --text: #333;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(245, 220, 246, 0.8) 100%);
+        }
+        
+        /* Arabic Font */
+        @font-face {
+            font-family: 'Tajawal';
+            src: url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        }
+        
+        body, button, input, textarea {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        /* Header Styles */
+        header {
+            background: white;
+            color: var(--white);
+            padding: 0.8rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(140, 22, 143, 0.25);
+            transition: all 0.3s ease;
+        }
+        
+        .scrolled {
+            padding: 0.5rem 5%;
+            box-shadow: 0 2px 10px rgba(140, 22, 143, 0.3);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-text {
+            height: 40px;
+        }
+        
+        .logo-text:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.8rem;
+            border-radius: 30px;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 70%;
+        }
+        
+        nav a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+    background:
+        linear-gradient(135deg, rgba(189, 29, 191, 0.85), rgba(142, 22, 144, 0.9)),
+        url('assets/mockups.png') center/cover;
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            color: var(--white);
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), #FF9800);
+            color: var(--dark);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FFB300, #F57C00);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Features Section */
+        .section {
+            padding: 6rem 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3.5rem;
+            color: var(--primary-dark);
+            position: relative;
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(189, 29, 191, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(189, 29, 191, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(189, 29, 191, 0.25);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.15);
+        }
+        
+        .feature-title {
+            font-size: 1.7rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary-dark);
+        }
+        
+        .feature-card p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        /* Apps Section */
+        .apps {
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .apps::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .apps::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #FF9800);
+            opacity: 0.08;
+            z-index: 0;
+        }
+        
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .app-card {
+            background: var(--light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(140, 22, 144, 0.15);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(189, 29, 191, 0.1);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(140, 22, 144, 0.25);
+        }
+        
+        .app-header {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+        
+        .player-header {
+            background: linear-gradient(135deg, var(--secondary), #FF9800);
+        }
+        
+        .app-title {
+            font-size: 2.2rem;
+            margin: 1.5rem 0 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .app-icon {
+            font-size: 3.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .app-content {
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .app-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .app-features li {
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(189, 29, 191, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .app-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .app-features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .download-btn {
+            width: 100%;
+            text-align: center;
+            padding: 1.1rem;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(189, 29, 191, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(189, 29, 191, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+        
+        .app-version {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, #fdf7ff, #f5e9f7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            opacity: 0.08;
+            transform: translateY(-50%);
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: var(--white);
+            padding: 1.5rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(189, 29, 191, 0.1);
+            min-width: 180px;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 4rem 5% 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary-light));
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            width: 100px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+        }
+        
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .stat-item {
+                padding: 1.2rem 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 0.7rem 5%;
+            }
+            
+            .logo-text {
+                height: 35px;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            nav a {
+                font-size: 1rem;
+                padding: 0.4rem 0.7rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 4rem 5%;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .app-card {
+                max-width: 100%;
+            }
+            
+            .stats {
+                gap: 1.5rem;
+            }
+            
+            .stat-item {
+                min-width: 150px;
+                padding: 1rem 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 10px 0;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding-top: 120px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="assets/logo-with-text.svg" alt="لاعبني" class="logo-text">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#features">المميزات</a></li>
+                    <li><a href="#apps">التطبيقات</a></li>
+                    <li><a href="#about">عن التطبيق</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>طريقة جديدة لحجز الملاعب الرياضية</h1>
+            <p>سواء كنت صاحب ملعب أو لاعباً، تطبيق لاعبني يقدم لك حلولاً سهلة لإدارة الملاعب وحجزها في أي وقت ومن أي مكان</p>
+            <div class="cta-buttons">
+                <a href="#apps" class="btn btn-primary">تحميل التطبيقات</a>
+                <a href="#features" class="btn btn-secondary">اكتشف المزيد</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <h2 class="section-title">مميزات تطبيق لاعبني</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">واجهة سهلة الاستخدام</h3>
+                <p>تصميم بسيط وبديهي يتناسب مع جميع المستخدمين، يمكنك إتمام حجزك في خطوات قليلة</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">حجز فوري</h3>
+                <p>اختر الوقت المناسب لك واحجز ملعبك المفضل فوراً دون عناء أو انتظار</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">إدارة متكاملة</h3>
+                <p>أصحاب الملاعب يمكنهم إدارة الحجوزات والمواعيد والإيرادات بسهولة</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3 class="feature-title">تذكير بالمواعيد</h3>
+                <p>نذكرك بمواعيد حجوزاتك قبل 24 ساعة حتى لا تنسى موعد لعبك</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3 class="feature-title">تقييم الملاعب</h3>
+                <p>شارك تجربتك مع الآخرين وقيم الملاعب التي لعبت بها لمساعدة اللاعبين الآخرين</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">دعم متواصل</h3>
+                <p>فريق الدعم الفني متاح على مدار الساعة للإجابة على استفساراتك وحل مشاكلك</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apps Section -->
+    <section class="section apps" id="apps">
+        <h2 class="section-title">تطبيقات لاعبني</h2>
+        <div class="apps-container">
+            <!-- Admin App -->
+            <div class="app-card">
+                <div class="app-header admin-header">
+                    <div class="app-icon">🏟️</div>
+                    <h3 class="app-title">تطبيق المدراء</h3>
+                    <p>لأصحاب الملاعب وإدارتها</p>
+                </div>
+                <div class="app-content">
+                    <p>تطبيق خاص بأصحاب الملاعب الرياضية يمكنك من إدارة ملعبك بسهولة وكفاءة:</p>
+                    <ul class="app-features">
+                        <li>تسجيل الملعب وتفاصيله</li>
+                        <li>إدارة أوقات العمل والفترات المتاحة</li>
+                        <li>متابعة الحجوزات والتأكيد عليها</li>
+                        <li>تقارير الإيرادات والحجوزات</li>
+                        <li>التواصل المباشر مع اللاعبين</li>
+                        <li>تحديث حالة الملعب في الوقت الحقيقي</li>
+                    </ul>
+                    <button class="download-btn" onclick="downloadApp('admin')">
+                        <span>تحميل تطبيق المدراء</span>
+                        <span>⬇️</span>
+                    </button>
+                    <div class="app-version">الإصدار: v1.1.0</div>
+                </div>
+            </div>
+
+            <!-- Player App -->
+            <div class="app-card">
+                <div class="app-header player-header">
+                    <div class="app-icon">⚽</div>
+                    <h3 class="app-title">تطبيق اللاعبين</h3>
+                    <p>لحجز الملاعب واللعب</p>
+                </div>
+                <div class="app-content">
+                    <p>تطبيق خاص باللاعبين لممارسة الرياضة في أفضل الملاعب:</p>
+                    <ul class="app-features">
+                        <li>البحث عن الملاعب القريبة</li>
+                        <li>معرفة الأوقات المتاحة</li>
+                        <li>حجز الملعب بسهولة وسرعة</li>
+                        <li>الدفع الإلكتروني الآمن</li>
+                        <li>تقييم الملاعب وتجربة اللعب</li>
+                        <li>مشاركة الحجز مع الأصدقاء</li>
+                    </ul>
+                    <button class="download-btn" onclick="downloadApp('player')">
+                        <span>تحميل تطبيق اللاعبين</span>
+                        <span>⬇️</span>
+                    </button>
+                    <div class="app-version">الإصدار: v1.1.0</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <h2 class="section-title">عن تطبيق لاعبني</h2>
+        <div class="about-content">
+            <p>
+                لاعبني هو منصة مبتكرة تهدف إلى ربط أصحاب الملاعب الرياضية مع اللاعبين بطريقة سهلة وآمنة.
+                نحن نؤمن بأن ممارسة الرياضة يجب أن تكون متاحة للجميع دون تعقيدات أو صعوبات.
+                من خلال تطبيقنا، يمكنك حجز ملعبك المفضل في دقائق معدودة أو إدارة ملعبك باحترافية وكفاءة.
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div>ملعب مسجل</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div>لاعب مسجل</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50K+</div>
+                    <div>حجز ناجح</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">
+                لاعبني منصة رائدة في مجال حجز الملاعب الرياضية، نسعى لتقديم أفضل تجربة للمستخدمين
+                سواء كانوا أصحاب ملاعب أو لاعبين، مع ضمان سهولة الاستخدام والأمان التام.
+            </p>
+            <div class="copyright">
+                © 2025 جميع الحقوق محفوظة لـ تطبيق لاعبني
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Download app function
+        function downloadApp(type) {
+            let fileName = '';
+            let appName = '';
+            
+            if (type === 'admin') {
+                fileName = 'assets/laebnie-admins-v1.1.0.apk';
+                appName = 'تطبيق المدراء';
+            } else if (type === 'player') {
+                fileName = 'assets/laebnie-players-v1.1.0.apk';
+                appName = 'تطبيق اللاعبين';
+            }
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.href = fileName;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 10000; animation: fadeIn 0.3s ease;">
+                    <strong>جاري التحميل!</strong> ${appName} سيبدأ التحميل قريباً
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeInUp 0.8s ease forwards`;
+                    entry.target.style.opacity = 0;
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.feature-card, .app-card, .stat-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
