@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لاعبني - حجز الملاعب بسهولة</title>
     <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root {
             --primary: #BD1DBF;
@@ -293,6 +294,23 @@
             font-size: 1.1rem;
         }
         
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px 20px 20px 20px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
         /* Apps Section */
         .apps {
             background-color: var(--white);
@@ -567,8 +585,34 @@
             opacity: 0.9;
         }
         
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
         .copyright {
-            margin-top: 3rem;
+            margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 1rem;
@@ -693,6 +737,16 @@
                 width: 100%;
                 max-width: 250px;
             }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -755,9 +809,9 @@
             <!-- Admin App -->
             <div class="app-card">
                 <div class="app-header admin-header">
-                    <div class="app-icon">🏟️</div>
-                    <h3 class="app-title">تطبيق المديرين</h3>
-                    <p>لأصحاب الملاعب وإدارتها</p>
+                        <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/icWdleK_OE4" title="تطبيق المديرين - لاعبني" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
                 <div class="app-content">
                     <p>مصمَّم خصيصًا لأصحاب الملاعب الرياضية لتسهيل الإدارة اليومية:</p>
@@ -777,9 +831,9 @@
             <!-- Player App -->
             <div class="app-card">
                 <div class="app-header player-header">
-                    <div class="app-icon">⚽</div>
-                    <h3 class="app-title">تطبيق اللاعبين</h3>
-                    <p>لتصفح الملاعب وحجزها</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/ZaCbfCq6Ec0" title="تطبيق اللاعبين - لاعبني" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
                 <div class="app-content">
                     <p>التطبيق الأمثل للاعبين الباحثين عن ملاعب قريبة وسريعة الحجز:</p>
@@ -816,8 +870,12 @@
                 لاعبني منصة رائدة لحجز الملاعب الرياضية، نسعى لتقديم أفضل تجربة للمستخدمين
                 سواء كانوا أصحاب ملاعب أو لاعبين، مع ضمان سهولة الاستخدام والأمان التام.
             </p>
+            <div class="social-links">
+                <a href="https://www.youtube.com/@laebnie" class="social-link fa fa-youtube" target="_blank" aria-label="قناة يوتيوب"></a>
+                <a href="https://www.facebook.com/profile.php?id=61578332502037" class="social-link fa fa-facebook" target="_blank" aria-label="صفحة فيسبوك"></a>
+            </div>
             <div class="copyright">
-                © 2025 جميع الحقوق محفوظة لـ تطبيق لاعبني
+                © 2025 جميع الحقوق محفوظة لمنصة لاعبني
             </div>
         </div>
     </footer>
